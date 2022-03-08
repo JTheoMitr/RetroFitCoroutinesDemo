@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -48,18 +49,25 @@ class MainActivity : AppCompatActivity() {
             .create(ApiRequests::class.java)
 
         GlobalScope.launch(Dispatchers.IO) {
-            val response = api.getCatFacts().awaitResponse()
-            if (response.isSuccessful) {
-                val data = response.body()!!
-                Log.d(TAG, data.text)
 
+            try {
+                val response = api.getCatFacts().awaitResponse()
+                if (response.isSuccessful) {
+                    val data = response.body()!!
+                    Log.d(TAG, data.text)
+
+                    withContext(Dispatchers.Main) {
+                        tv_textView.visibility = View.VISIBLE
+                        tv_timeStamp.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
+
+                        tv_textView.text = data.text
+                        tv_timeStamp.text = data.createdAt
+                    }
+                }
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    tv_textView.visibility = View.VISIBLE
-                    tv_timeStamp.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
-
-                    tv_textView.text = data.text
-                    tv_timeStamp.text = data.createdAt
+                    Toast.makeText(applicationContext, "seems like no net", Toast.LENGTH_LONG).show()
                 }
             }
         }
