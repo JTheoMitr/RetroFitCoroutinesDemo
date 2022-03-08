@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/purple_200">
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -15,15 +16,25 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
+    <ImageView
+        android:id="@+id/catImage"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_above="@+id/progressBar"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/cat_face"
+        android:src="@drawable/meow" />
+
     <TextView
         android:id="@+id/tv_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_below="@id/catImage"
         android:layout_margin="20dp"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:text="Sample Cat Fact" />
+        android:text="@string/sample_cat_fact" />
 
     <TextView
         android:id="@+id/tv_timeStamp"
@@ -32,14 +43,16 @@
         android:layout_below="@+id/tv_textView"
         android:layout_centerInParent="true"
         android:textColor="@color/black"
+        android:layout_marginBottom="150dp"
         android:textSize="12sp"
         android:textStyle="italic"
-        android:text="Timestamp" />
+        android:text="@string/timestamp" />
 
     <RelativeLayout
         android:id="@+id/layout_generate_new_fact"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+         />
 
 
 
