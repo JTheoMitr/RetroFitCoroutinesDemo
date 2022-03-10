@@ -7,10 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
@@ -23,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private var TAG = "MainActivity"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) = runBlocking {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -36,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun getCurrentData() {
+    private fun getCurrentData()  {
 
         tv_textView.visibility = View.INVISIBLE
         tv_timeStamp.visibility = View.INVISIBLE
@@ -48,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             .build()
             .create(ApiRequests::class.java)
 
-        GlobalScope.launch(Dispatchers.IO) {
+        MainScope().launch(Dispatchers.IO) {
 
             try {
                 val response = api.getCatFacts().awaitResponse()
