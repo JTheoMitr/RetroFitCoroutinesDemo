@@ -14,7 +14,8 @@ import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
-const val BASE_URL = "https://cat-fact.herokuapp.com"
+//const val BASE_URL = "https://cat-fact.herokuapp.com"
+const val BASE_URL = "http://34.134.148.105/"
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,15 +52,16 @@ class MainActivity : AppCompatActivity() {
                 val response = api.getCatFacts().awaitResponse()
                 if (response.isSuccessful) {
                     val data = response.body()!!
-                    Log.d(TAG, data.text)
+                    Log.d(TAG, data.content.toString())
 
                     withContext(Dispatchers.Main) {
                         tv_textView.visibility = View.VISIBLE
                         tv_timeStamp.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
 
-                        tv_textView.text = data.text
-                        tv_timeStamp.text = data.createdAt
+                        // data.content is your nested array of POSTS to iterate for the ADAPTER
+                        tv_textView.text = data.content[0].message.toString()
+                        tv_timeStamp.text = data.content[0].createdOn.toString()
                     }
                 }
             } catch (e: Exception) {
